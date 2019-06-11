@@ -36,7 +36,7 @@ class App extends React.Component {
       playingVideo: exampleVideoData[0], // this is a single video object for VideoPlayer to use
       searchOptions: {
         key: this.props.API_KEY,
-        query: 'React',
+        query: 'cats',
         max: 5
       }
     };
@@ -74,7 +74,7 @@ class App extends React.Component {
     this.setState({
       videos: result,
       playingVideo: result[0]
-    })
+    });
   }
 
   render() {

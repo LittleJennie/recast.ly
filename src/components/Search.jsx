@@ -21,7 +21,7 @@ class Search extends React.Component{
         max: 5, 
         query: document.getElementsByClassName('form-control')
       }
-    }
+    };
   }
 
   render() {
