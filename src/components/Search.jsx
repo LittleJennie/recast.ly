@@ -1,4 +1,4 @@
-import YOUTUBE_API_KEY from "../config/youtube.js";
+
 
 // var Search = () => (
 //   <div className="search-bar form-inline">
@@ -14,26 +14,21 @@ import YOUTUBE_API_KEY from "../config/youtube.js";
 class Search extends React.Component{
   constructor(props){
     super(props);
-  }
 
-  get(searchText, successCB, errorCB=null) {
-    $.get(
-      "https://www.googleapis.com/youtube/v3/search",
-      {
-        part: "snippet",
-        key: YOUTUBE_API_KEY,
-        maxResults: 5,
-        q: searchText
-      },
-      successCB(data)
-    );
+    this.state = {
+      options: {
+        key: this.props.API_KEY,
+        max: 5, 
+        query: document.getElementsByClassName('form-control')
+      }
+    }
   }
 
   render() {
     return (
       <div className="search-bar form-inline">
         <input className="form-control" type="text" />
-        <button className="btn hidden-sm-down">
+        <button className="btn hidden-sm-down" onSubmit={() => this.props.searchYouTube(this.state.options, props.onSubmitQuery)}>
           <span className="glyphicon glyphicon-search"></span>
         </button>
       </div> 

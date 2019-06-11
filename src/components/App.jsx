@@ -33,10 +33,20 @@ class App extends React.Component {
     this.state = {
       //done: false,
       videos: exampleVideoData, // this is an array with video objects
-      playingVideo: exampleVideoData[0] // this is a single video object for VideoPlayer to use
+      playingVideo: exampleVideoData[0], // this is a single video object for VideoPlayer to use
+      searchOptions: {
+        key: this.props.API_KEY,
+        query: 'React',
+        max: 5
+      }
     };
     this.onTitleClick = this.onTitleClick.bind(this);
+    this.onSubmitQuery = this.onSubmitQuery.bind(this);
   }
+  componentDidMount() {
+    this.props.searchYouTube(this.state.searchOptions, this.onSubmitQuery);
+  }
+
 
   onTitleClick(targetEtag) {
     //e.preventDefault();
@@ -59,6 +69,14 @@ class App extends React.Component {
     //call preventDefault to prevent default behavior
   }
 
+  onSubmitQuery(result) {
+    // to update video list
+    this.setState({
+      videos: result,
+      playingVideo: result[0]
+    })
+  }
+
   render() {
     var style = {
       textDecoration: this.state.done ? 'line-through' : 'none'
@@ -68,7 +86,11 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <Search />
+            <Search 
+              onSubmitQuery={this.onSubmitQuery}
+              searchYoutube={this.props.searchYouTube}
+              API_KEY={this.props.API_KEY}
+            />
           </div>
         </nav>
         <div className="row">
