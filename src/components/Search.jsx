@@ -1,14 +1,3 @@
-import searchYouTube from '../lib/searchYouTube.js';
-
-// var Search = () => (
-//   <div className="search-bar form-inline">
-//     <input className="form-control" type="text" />
-//     <button className="btn hidden-sm-down" onSubmit={() => this.props.searchYouTube({key: props.API_KEY, max: 5, query: document.getElementsByClassName('form-control').value}, props.onSubmitQuery)}>
-//       <span className="glyphicon glyphicon-search"></span>
-//     </button>
-//   </div> 
-// );
-
 
 
 class Search extends React.Component{
@@ -22,12 +11,7 @@ class Search extends React.Component{
   }
   handleInputChange(e){
     var inputText = e.target.value;
-    var options = {
-      key: this.props.API_KEY,
-      query: inputText,
-      max: 5
-    }
-    searchYouTube(options, this.props.onSubmitQuery);
+    this.props.onSubmitQuery(inputText);
     this.setState({
       value: e.target.value
     });

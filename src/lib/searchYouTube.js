@@ -14,7 +14,6 @@ var searchYouTube = (options, successCB) => {
   )
     .done (({items}) => {
       successCB(items);
-      console.log(items)
     })
     .fail (() => {
       responseJSON.error.errors.forEach((err) =>

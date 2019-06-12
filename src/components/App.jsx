@@ -2,28 +2,6 @@ import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
 import Search from './Search.js';
 import exampleVideoData from '../data/exampleVideoData.js';
-// var App = () => (
-//   <div>
-//     <nav className="navbar">
-//       <div className="col-md-6 offset-md-3">
-//         <div><h5><em>search</em> view goes here</h5></div>
-//       </div>
-//     </nav>
-//     <div className="row">
-//       <div className="col-md-7">
-//         <VideoPlayer
-//           video = {exampleVideoData[0]}
-//         />
-//       </div>
-//       <div className="col-md-5">
-//         <VideoList 
-//           videos = {exampleVideoData}
-//         />
-//       </div>
-//     </div>
-//   </div>
-// );
-
 
 //refactor to ES6
 class App extends React.Component {
@@ -31,28 +9,20 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      //done: false,
       videos: exampleVideoData, // this is an array with video objects
       playingVideo: exampleVideoData[0], // this is a single video object for VideoPlayer to use
-      searchOptions: {
-        key: this.props.API_KEY,
-        query: 'cats',
-        max: 5
-      }
     };
     this.onTitleClick = this.onTitleClick.bind(this);
     this.onSubmitQuery = this.onSubmitQuery.bind(this);
   }
   componentDidMount() {
-    this.props.searchYouTube(this.state.searchOptions, this.onSubmitQuery);
+    this.onSubmitQuery('cats');
   }
 
-  //////////HYPOTHESIS/////////////////
-  //handleSubmit(){}
-  
-
   onTitleClick(targetEtag) {
-    console.log('print: here', targetEtag);
+    // we will need to reset playingVideo to the clicked video from videoListEntries
+    // we will grab it based on the etag from click
+    // and set the playingVideo to such etag video
     // loop through videos
     var currentVideoIndex;
     for(var i = 0; i < this.state.videos.length; i++) {
@@ -63,19 +33,24 @@ class App extends React.Component {
     }
 
     this.setState({
-      // we will need to reset playingVideo to the clicked video from videoListEntries
-      // we will grab it based on the etag from click
-      // and set the playingVideo to such etag video
       playingVideo: this.state.videos[currentVideoIndex]
     });
   }
 
-  onSubmitQuery(result) {
-    // to update video list
-    this.setState({
-      videos: result,
-      playingVideo: result[0]
-    });
+  onSubmitQuery(inputText) {
+    var options = {
+      key: this.props.API_KEY,
+      query: inputText,
+      max: 5
+    }
+    // call searchYouTube function to get data and update video list
+    this.props.searchYouTube(options, (result) => {
+      this.setState({
+        videos: result,
+        playingVideo: result[0]
+      })
+    })
+;
   }
 
   render() {
@@ -89,8 +64,6 @@ class App extends React.Component {
           <div className="col-md-6 offset-md-3">
             <Search 
               onSubmitQuery={this.onSubmitQuery}
-              searchYoutube={this.props.searchYouTube.bind(this)}
-              API_KEY={this.props.API_KEY}
             />
           </div>
         </nav>
