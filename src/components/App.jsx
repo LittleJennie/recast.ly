@@ -47,9 +47,11 @@ class App extends React.Component {
     this.props.searchYouTube(this.state.searchOptions, this.onSubmitQuery);
   }
 
+  //////////HYPOTHESIS/////////////////
+  //handleSubmit(){}
+  
 
   onTitleClick(targetEtag) {
-    //e.preventDefault();
     console.log('print: here', targetEtag);
     // loop through videos
     var currentVideoIndex;
@@ -64,9 +66,8 @@ class App extends React.Component {
       // we will need to reset playingVideo to the clicked video from videoListEntries
       // we will grab it based on the etag from click
       // and set the playingVideo to such etag video
-      playingVideo: exampleVideoData[currentVideoIndex]
+      playingVideo: this.state.videos[currentVideoIndex]
     });
-    //call preventDefault to prevent default behavior
   }
 
   onSubmitQuery(result) {
@@ -88,7 +89,7 @@ class App extends React.Component {
           <div className="col-md-6 offset-md-3">
             <Search 
               onSubmitQuery={this.onSubmitQuery}
-              searchYoutube={this.props.searchYouTube}
+              searchYoutube={this.props.searchYouTube.bind(this)}
               API_KEY={this.props.API_KEY}
             />
           </div>

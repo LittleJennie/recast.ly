@@ -16,6 +16,7 @@ describe ('Search', function() {
       searchYouTubeStub.onCall(0).yields(window.fakeVideoData);
       searchYouTubeStub.onCall(1).yields(window.moreFakeVideoData);
 
+      ////READ THIS/////
       app = renderIntoDocument(
         <App searchYouTube={searchYouTubeStub} />
       );
